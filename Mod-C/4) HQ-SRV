@@ -114,7 +114,7 @@ fail2ban-client status sshd
 
 ---------Резервное копирование/CyberBackup------------ 
 ---HQ-SRV
-vim /etc/fstab
+vim /etc/fstab - Удалить строку с рейдом
 
 apt-get update && apt-get install kernel-source-6.1 kernel-headers-modules-un-def gcc make kmod-sign -y
 update-kernel
