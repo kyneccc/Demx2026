@@ -32,6 +32,12 @@ echo "172.22.0.1/30" >> /etc/net/ifaces/gre1/ipv4address
 systemctl restart network 
 apt-get update && apt-get install sudo tzdata frr dnsmasq nftables -y
 
+## USER
+useradd net_admin
+echo "net_admin:P@ssw0rd" | chpasswd
+usermod -aG wheel net_admin
+sed -i 's/# WHEEL_USERS ALL=(ALL:ALL) NOPASSWD: ALL/WHEEL_USERS ALL=(ALL:ALL) NOPASSWD: ALL/'  /etc/sudoers
+
 ## Routing
 sed -i 's/net.ipv4.ip_forward = 0/net.ipv4.ip_forward = 1/' /etc/net/sysctl.conf
 rm -f /etc/net/ifaces/enp7s1/resolv.conf
@@ -75,6 +81,8 @@ exit
 EOF
 systemctl enable --now frr
 
+## Timezone
+timedatectl set-timezone Europe/Moscow
 
 ## DHCP 
 cat <<'EOF' > /etc/dnsmasq.conf
